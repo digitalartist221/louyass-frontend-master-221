@@ -8,7 +8,6 @@ import { useAuth } from "./auth/AuthContext";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { Button, Group, Box } from '@mantine/core'; // Import Mantine components
 import React from "react";
-
 function App() {
   const { userToken, logout } = useAuth();
 

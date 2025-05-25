@@ -1,71 +1,132 @@
-// frontend/src/pages/LoginPage.jsx
+import { useState } from 'react';
+import { 
+  TextInput, 
+  PasswordInput, 
+  Button, 
+  Title, 
+  Paper, 
+  Group, 
+  Text, 
+  Anchor,
+  Divider,
+  Box,
+  Flex,
+  rem
+} from '@mantine/core';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
+import { IconBrandGoogle, IconBrandFacebook, IconAt, IconLock } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 
-import { useAuth } from "../auth/AuthContext";
-import { useForm } from '@mantine/form'; // Import useForm hook
-import { TextInput, PasswordInput, Button, Paper, Title, Text, Anchor, Group } from '@mantine/core'; // Import Mantine components
-import { Link } from 'react-router-dom'; // For navigation
-import React from "react";
+export function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-export default function LoginPage() {
-  const { login, isLoading } = useAuth();
-
-  // Initialize Mantine form with validation rules
-  const form = useForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email invalide'),
-      password: (value) => (value.length >= 6 ? null : 'Le mot de passe doit contenir au moins 6 caractères'),
-    },
-  });
-
-  const handleLogin = async (values) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
     try {
-      await login(values.email, values.password);
-      // Navigation is handled by AuthContext on success
-    } catch (err) {
-      // Errors are handled by AuthContext notifications
+      await login(email, password);
+      notifications.show({
+        title: 'Connexion réussie',
+        message: 'Bienvenue sur votre espace',
+        color: 'green',
+      });
+      navigate('/');
+    } catch (error) {
+      notifications.show({
+        title: 'Erreur de connexion',
+        message: error.message || 'Identifiants incorrects',
+        color: 'red',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f0f2f5' }}>
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md" style={{ maxWidth: 450, width: '100%' }}>
-        <Title order={2} ta="center" mt="md" mb={30}>
-          Se connecter
-        </Title>
-
-        <form onSubmit={form.onSubmit(handleLogin)}>
+    <Box maw={460} mx="auto" py={40}>
+      <Title ta="center" mb={20} style={{ fontSize: rem(28) }}>
+        Bienvenue sur Airbnb
+      </Title>
+      
+      <Paper withBorder shadow="sm" p={30} radius="md">
+        <form onSubmit={handleSubmit}>
           <TextInput
             label="Email"
             placeholder="votre@email.com"
             required
-            {...form.getInputProps('email')} // Connects Mantine form to input
+            leftSection={<IconAt size={16} />}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            mb="md"
+            size="md"
           />
+          
           <PasswordInput
             label="Mot de passe"
             placeholder="Votre mot de passe"
             required
-            mt="md"
-            {...form.getInputProps('password')} // Connects Mantine form to input
+            leftSection={<IconLock size={16} />}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            mb="xl"
+            size="md"
           />
-
-          <Button type="submit" fullWidth mt="xl" loading={isLoading}>
+          
+          <Button 
+            fullWidth 
+            type="submit" 
+            size="md"
+            loading={loading}
+            style={{
+              backgroundColor: '#FF385C',
+              '&:hover': { backgroundColor: '#E61E4D' }
+            }}
+          >
             Se connecter
           </Button>
-
-          <Group mt="md" justify="center">
-            <Text c="dimmed" size="sm">
-              Pas de compte ?{' '}
-              <Anchor component={Link} to="/register" size="sm">
-                S'inscrire
-              </Anchor>
-            </Text>
-          </Group>
         </form>
+
+        <Divider my="lg" label="Ou continuer avec" labelPosition="center" />
+        
+        <Group grow mb="md">
+          <Button 
+            variant="default" 
+            leftSection={<IconBrandGoogle size={18} />}
+            radius="md"
+          >
+            Google
+          </Button>
+          <Button 
+            variant="default" 
+            leftSection={<IconBrandFacebook size={18} color="#1877F2" />}
+            radius="md"
+          >
+            Facebook
+          </Button>
+        </Group>
+
+        <Flex justify="center" gap="sm" mt="lg">
+          <Text c="dimmed" size="sm">
+            Pas encore de compte ?
+          </Text>
+          <Anchor component={Link} to="/register" size="sm">
+            S'inscrire
+          </Anchor>
+        </Flex>
       </Paper>
-    </div>
+
+      <Text c="dimmed" size="xs" ta="center" mt={40}>
+        En vous connectant, vous acceptez nos Conditions d'utilisation
+        et notre Politique de confidentialité.
+      </Text>
+    </Box>
   );
 }
+
+export default LoginPage;
