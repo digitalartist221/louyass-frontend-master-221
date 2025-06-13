@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,20 +5,23 @@ import { MantineProvider } from '@mantine/core'; // Import MantineProvider
 import { Notifications } from '@mantine/notifications'; // Import Notifications component
 
 import App from './App.jsx';
-// --- IMPORTANT: Ensure this import path is correct ---
-import { AuthProvider } from './auth/AuthContext'; 
+import { AuthProvider } from './auth/AuthContext'; // Ensure this import path is correct
 
-// Import Mantine's global CSS
+// Import Mantine's global CSS (should only be imported once)
 import '@mantine/core/styles.css';
 // Import Mantine Notifications CSS
 import '@mantine/notifications/styles.css';
 
+import { theme } from './theme'; // Import your custom theme
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       {/* MantineProvider wraps the entire app to provide theme and styles */}
-      <MantineProvider defaultColorScheme="light"> {/* Or "dark", or "auto" */}
+      {/* Pass your custom theme to the MantineProvider */}
+      <MantineProvider>
         {/* Notifications component for displaying toasts */}
         <Notifications />
         <AuthProvider>

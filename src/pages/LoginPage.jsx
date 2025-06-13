@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   TextInput, 
   PasswordInput, 
@@ -13,17 +13,27 @@ import {
   Flex,
   rem
 } from '@mantine/core';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { IconBrandGoogle, IconBrandFacebook, IconAt, IconLock } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 
+// Helper function to parse redirect URL from query parameters
+const getRedirectUrl = (search) => {
+  const params = new URLSearchParams(search);
+  return params.get('redirect') || '/';
+};
+
 export function LoginPage() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
-  const navigate = useNavigate();
+
+  // Get redirect URL from query parameters
+  const redirectUrl = getRedirectUrl(location.search);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +46,8 @@ export function LoginPage() {
         message: 'Bienvenue sur votre espace',
         color: 'green',
       });
-      navigate('/');
+      // Navigate to the redirect URL if provided, otherwise go to home
+      navigate(redirectUrl);
     } catch (error) {
       notifications.show({
         title: 'Erreur de connexion',

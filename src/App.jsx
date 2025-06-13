@@ -1,53 +1,38 @@
-// frontend/src/App.jsx
+// App.jsx
+import { AppShell } from '@mantine/core';
+import { Routes, Route } from 'react-router-dom';
 
-import { Routes, Route, Link } from "react-router-dom"; // No need for BrowserRouter here anymore, as it's in main.jsx
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import HomePage from "./pages/HomePage";
-import { useAuth } from "./auth/AuthContext";
-import { ProtectedRoute } from "./auth/ProtectedRoute";
-import { Button, Group, Box } from '@mantine/core'; // Import Mantine components
-import React from "react";
+// Import your page components
+import Header from './components/Header'; // We'll create/refactor this
+import Search from './pages/Search';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ProfilePage from './pages/ProfilePage'; // Assuming you'll create a dedicated profile page
+
+import MesProprietesPage from './pages/proprietaire/MesProprietesPage';
+import MesChambresPage from './pages/proprietaire/MesChambrePages';
+import SearchPage from './pages/Search';
+import ReservationPage from './pages/ReservationPage';
+
 function App() {
-  const { userToken, logout } = useAuth();
-
   return (
-    <>
-      <Group component="nav" px="md" py="xs" bg="dark" c="white" h={60} justify="space-between">
-        <Box component={Link} to="/" style={{ textDecoration: 'none', color: 'inherit', fontSize: '1.25rem', fontWeight: 'bold' }}>
-          Airbnb Clone
-        </Box>
-        <Group>
-          {userToken ? (
-            <Button onClick={logout} variant="light" color="blue">
-              Déconnexion
-            </Button>
-          ) : (
-            <>
-              <Button component={Link} to="/login" variant="light" color="blue">
-                Connexion
-              </Button>
-              <Button component={Link} to="/register" variant="filled" color="blue">
-                Inscription
-              </Button>
-            </>
-          )}
-        </Group>
-      </Group>
-
+    <AppShell>
+       <Header /> 
+    
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        {/* Protected route for authenticated users */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<HomePage />} />
-          {/* Add other protected routes here */}
-        </Route>
+        <Route path="/" element={<SearchPage />} />
+        <Route path="/maisons" element={<MesProprietesPage />} />
+        <Route path="/chambres" element={<MesChambresPage />} />
+        <Route path="/medias" element={<Search />} />
+        <Route path="/profile" element={<ProfilePage />} /> {/* Render a dedicated ProfilePage */}
+        <Route path="/chambres/:id/reserver" element={<ReservationPage  />} />
+        {/* You might want a 404 page for unmatched routes */}
+        {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
-    </>
+    </AppShell>
   );
 }
 
 export default App;
-
-

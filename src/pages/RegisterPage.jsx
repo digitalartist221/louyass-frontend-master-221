@@ -19,7 +19,10 @@ import api from '../api/axios';
 
 export function RegisterPage() {
   const [formData, setFormData] = useState({
+    nom:'',
+    prenom:'',  
     email: '',
+
     password: '',
     confirmPassword: '',
     nom_utilisateur: '',
@@ -35,6 +38,12 @@ export function RegisterPage() {
 
   const validateField = (name, value) => {
     switch (name) {
+      case 'nom':
+        if (value.length < 3) return 'Le nom doit contenir au moins 3 caractères';
+        break;
+      case 'prenom':
+        if (value.length < 3) return 'Le prénom doit contenir au moins 3 caractères';
+        break;
       case 'email':
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Email invalide';
         break;
@@ -49,6 +58,9 @@ export function RegisterPage() {
         break;
       case 'telephone':
         if (value && !/^[0-9]{9}$/.test(value)) return 'Numéro de téléphone invalide';
+        break;
+      case 'cni':
+        if (value && !/^[0-9]{13}$/.test(value)) return 'Numéro de CNI invalide';
         break;
       default:
         return '';
@@ -100,7 +112,7 @@ export function RegisterPage() {
     try {
       const { confirmPassword, ...userData } = formData; // On enlève confirmPassword avant l'envoi
       
-      const response = await api.post('/auth/register', userData);
+      await api.post('/auth/register', userData);
       
       setNotification({
         title: 'Inscription réussie',
@@ -167,6 +179,28 @@ export function RegisterPage() {
         <form onSubmit={handleSubmit}>
           <Stack gap="md">
             <TextInput
+              label="Nom"
+              placeholder="Votre nom"
+              required
+              name="nom"
+              leftSection={<IconUser size={16} />}
+              value={formData.nom}
+              onChange={handleChange}
+              error={errors.nom}
+              withAsterisk
+            />
+            <TextInput
+              label="Prénom"
+              placeholder="Votre prénom"
+              required
+              name="prenom"
+              leftSection={<IconUser size={16} />}
+              value={formData.prenom}
+              onChange={handleChange}
+              error={errors.prenom}
+              withAsterisk
+            />  
+            <TextInput
               label="Email"
               placeholder="votre@email.com"
               required
@@ -202,7 +236,7 @@ export function RegisterPage() {
               />
 
               <TextInput
-                label="CNI (optionnel)"
+                label="CNI"
                 placeholder="Numéro de CNI"
                 name="cni"
                 leftSection={<IconId size={16} />}
