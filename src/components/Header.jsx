@@ -11,7 +11,7 @@ console.log(user)
     <Box p="md" style={{ borderBottom: '1px solid #eee' }}>
       <Group position="apart" align="center">
         <Text size="xl" weight={700} color="blue">
-          RealEstate
+          Louyass 221
         </Text>
         <Group>
           <Button component={Link} to="/" variant="subtle">
@@ -25,8 +25,8 @@ console.log(user)
               <Button component={Link} to="/chambres" variant="subtle">
                 Chambres
               </Button>
-              <Button component={Link} to="/medias" variant="subtle">
-                Médias
+              <Button component={Link} to="/rendez-vous" variant="subtle">
+                Rendez-vous
               </Button>
               <Button component={Link} to="/profile" variant="subtle">
                 Profil
