@@ -14,6 +14,7 @@ import MesChambresPage from './pages/proprietaire/MesChambrePages';
 import SearchPage from './pages/Search';
 import ChambreDetailPage from './pages/ChambreDetailPage';
 import MesRendezVousPage from './pages/proprietaire/MesRendezVousPage';
+import MesContratsPage from './pages/proprietaire/MesContratPages';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} /> {/* Render a dedicated ProfilePage */}
         <Route path="/chambres/:id/reserver" element={<ChambreDetailPage  />} />
         <Route path="/rendez-vous" element={<MesRendezVousPage />} /> 
+        <Route path='/contrats' element={<MesContratsPage />} />
         {/* You might want a 404 page for unmatched routes */}
         {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>

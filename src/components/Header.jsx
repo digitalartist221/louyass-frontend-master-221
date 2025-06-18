@@ -28,6 +28,9 @@ console.log(user)
               <Button component={Link} to="/rendez-vous" variant="subtle">
                 Rendez-vous
               </Button>
+              <Button component={Link} to="/contrats" variant="subtle">
+                Contrats
+              </Button>
               <Button component={Link} to="/profile" variant="subtle">
                 Profil
               </Button>
