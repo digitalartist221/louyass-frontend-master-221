@@ -31,6 +31,9 @@ console.log(user)
               <Button component={Link} to="/contrats" variant="subtle">
                 Contrats
               </Button>
+              <Button component={Link} to="/mes-paiements-proprietaire" variant="subtle">
+                Paiements
+              </Button> 
               <Button component={Link} to="/profile" variant="subtle">
                 Profil
               </Button>
