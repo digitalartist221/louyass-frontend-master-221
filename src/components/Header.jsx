@@ -17,7 +17,7 @@ console.log(user)
           <Button component={Link} to="/" variant="subtle">
             Accueil
           </Button>
-          {user?.role === 'proprietaire' ? (
+          {userToken && user?.role === 'proprietaire' ? (
             <>
               <Button component={Link} to="/maisons" variant="subtle">
                 Maisons
@@ -35,7 +35,20 @@ console.log(user)
                 Profil
               </Button>
             </>
+          ) :   userToken && user?.role === 'locataire' ? (
+            <>
+            <Button component={Link} to="/mes-contrats" variant="subtle">
+                Mes contrats
+              </Button>
+            <Button component={Link} to="/mes-paiements" variant="subtle">
+                Mes paiements
+              </Button>
+            <Button component={Link} to="/profile" variant="subtle">
+                Profil
+              </Button>
+            </>
           ) : null}
+
           {userToken ? (
             <Menu shadow="md" width={200} position="bottom-end">
               <Menu.Target>

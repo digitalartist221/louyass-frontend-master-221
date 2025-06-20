@@ -15,6 +15,8 @@ import SearchPage from './pages/Search';
 import ChambreDetailPage from './pages/ChambreDetailPage';
 import MesRendezVousPage from './pages/proprietaire/MesRendezVousPage';
 import MesContratsPage from './pages/proprietaire/MesContratPages';
+import MesContratsLocatairePage from './pages/locataire/MesContratsLocatairePage';
+import BuggyContratsLocatairePage from './pages/locataire/BuggyContratsLocatairePage';
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
         <Route path="/chambres/:id/reserver" element={<ChambreDetailPage  />} />
         <Route path="/rendez-vous" element={<MesRendezVousPage />} /> 
         <Route path='/contrats' element={<MesContratsPage />} />
+        <Route path='/mes-contrats' element={<MesContratsLocatairePage />} />
+        <Route path='/mes-paiements' element={<BuggyContratsLocatairePage />} />
         {/* You might want a 404 page for unmatched routes */}
         {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
