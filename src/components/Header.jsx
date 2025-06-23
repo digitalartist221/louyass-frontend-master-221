@@ -40,9 +40,6 @@ console.log(user)
             </>
           ) :   userToken && user?.role === 'locataire' ? (
             <>
-            <Button component={Link} to="/mes-contrats" variant="subtle">
-                Mes contrats
-              </Button>
             <Button component={Link} to="/mes-paiements" variant="subtle">
                 Mes paiements
               </Button>
